@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Этот файл используется процессом публикации или упаковки вашего веб-проекта. Можно настроить поведение этого процесса,
+изменив этот файл MSBuild. Подробности см. на странице https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAZwclYxP7IECqYIUcgZXBhAAAAAACAAAAAAAQZgAAAAEAACAAAADkpPljFHJHB3SpKZtg8DXwhBCcDx7I8ALFCVN0cD4k/AAAAAAOgAAAAAIAACAAAAAk+KSW458fMh7zedHXEsETdxAfDFAFoCsVyCd4qmC6EoAAAABa7Eqri4Txoxle4hs4/kmx8N1xSl1bT+p/SbtMhQOLEOtpNxoytfAHwhXEJ+XR1nj8e0lUdiB2YAmNXOg1LcR1KqgMhcGK3JTVMzuNyG40CacfFf4uHcu5zOF/3Y95xTlR7HXDTIfVJS0OieNNPKU0nArgAHxKLrTcoJsSP8suMEAAAACExueIU4D4y6R9aHtxy8kJkxnNvXP99dnaTTiZ1ZpIvhF7HiYOI35Hr/KAW0nEK4G393zYRKdalwRUXitlW0BF</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="WebApp3ContextConnection">
+      <Value>Data Source=tcp:thefanfictionwebapplicationdbserver.database.windows.net,1433%3bInitial Catalog=TheFanfictionWebApplication_db%3bUser Id=alexbas13%40thefanfictionwebapplicationdbserver%3bPassword=Alex5325353256</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="WebApp3.Areas.Identity.DbContext.ApplicationUserDbContext">
+      <Value>Data Source=tcp:thefanfictionwebapplicationdbserver.database.windows.net,1433%3bInitial Catalog=TheFanfictionWebApplication_db%3bUser Id=alexbas13%40thefanfictionwebapplicationdbserver%3bPassword=Alex5325353256</Value>
+    </EFMigrations>
+    <EFMigrations Include="WebApp3.Areas.Identity.DbContext.FanficDbContext">
+      <Value>Data Source=tcp:thefanfictionwebapplicationdbserver.database.windows.net,1433%3bInitial Catalog=TheFanfictionWebApplication_db%3bUser Id=alexbas13%40thefanfictionwebapplicationdbserver%3bPassword=Alex5325353256</Value>
+    </EFMigrations>
+    <EFMigrations Include="WebApp3.Data.WebApp3Context">
+      <Value>Data Source=tcp:thefanfictionwebapplicationdbserver.database.windows.net,1433%3bInitial Catalog=TheFanfictionWebApplication_db%3bUser Id=alexbas13%40thefanfictionwebapplicationdbserver%3bPassword=Alex5325353256</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

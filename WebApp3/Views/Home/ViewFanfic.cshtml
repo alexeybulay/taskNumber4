@@ -1,0 +1,33 @@
+﻿@model WebApp3.ViewModels.ApplicationUserViewModel;
+@{
+    Layout = null;
+}
+
+<form asp-action="ViewFanfic" onsubmit="return uploadImage(this, 'Отлично','','success')" enctype="multipart/form-data">
+    <div class="avatar-postition">
+        <img src="~/images/@Model.ImageUrl" id="img" class="rounded-circle" width="200" height="200" >
+    </div>
+    <div class="form-group">
+        <input asp-for="ProfileImage" id="imagePath" class="form-control" />
+        <span asp-validation-for="ProfileImage" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="button" onclick="closePopUp(this)" class="btn btn-primary btn-block">Выйти</button>
+        <button type="submit" class="btn btn-primary btn-block" id="clickbtn" style="display: none"></button>
+    </div>
+</form>
+
+<script>
+    $('#imagePath').bind({
+        change: function() {
+            $("#clickbtn").click();
+   
+        }
+    });
+</script>
+
+<style>
+    .avatar-postition{
+        text-align: center;
+        }
+</style>

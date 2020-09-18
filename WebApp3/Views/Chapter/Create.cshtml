@@ -1,0 +1,50 @@
+﻿@model WebApp3.ViewModels.CreateChapterViewModel
+
+@{
+    ViewData["Title"] = "Создание главы";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Создание новой главы</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>Название главы</label>
+                <input asp-for="NameChapter" class="form-control" />
+                <span asp-validation-for="NameChapter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Сожержимое</label>
+                <textarea asp-for="TextChapter" class="form-control" style="height: 450px"></textarea>
+                <span asp-validation-for="TextChapter" class="text-danger"></span>
+            </div>
+            <div class="form-group create">
+              
+                <input type="submit" value="Создать главу" asp-route-id="@Model.Fanfics.FanficId" class="btn btn-danger"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<style>
+ label{
+     color: white;
+     }
+ .create{
+     display: flex;
+     padding: 10px;
+     justify-content: center;
+ }
+ input.btn{
+     margin: 10px;
+ }
+  </style>

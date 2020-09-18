@@ -1,0 +1,126 @@
+﻿@model WebApp3.ViewModels.CreateFanficViewModel
+
+@{
+    ViewData["Title"] = "Создание фанфика";
+     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-white">Создание нового фанфика</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="CreateFanfic" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label text-white">Название фанфика</label>
+                <input asp-for="NameFanfic" class="form-control" />
+                <span asp-validation-for="NameFanfic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label text-white">Описание</label>
+                <textarea asp-for="Description" class="form-control" style="height: 150px"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group select">
+                <select asp-for="selectedFandom" asp-items="@(new SelectList(Model.Fandoms, "FandomID", "FandomName"))"></select>
+            </div>  
+            <div class="form-group select">
+                <select asp-for="selectedCategory" asp-items="@(new SelectList(Model.Categories, "CategoryId", "CategoryName"))">
+                    </select>
+            </div>
+            <div class="form-group select">
+                <select asp-for="SelectedTags" asp-items="Model.Tags" class="mul-select" multiple>
+                    <option disabled selected></option>
+                </select>
+            </div>
+            <div class="form-group action-buttons">
+                <input asp-controller="Home" asp-action="Index"  type="button" value="Назад" class="btn btn-danger" />
+                <input type="submit" value="Создать фанфик" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $(".mul-select").select2({
+            placeholder: "Выберите метки",
+            tags: false,
+            tokenSeparators: ['/', ',', ','," "]
+    
+        });
+    });
+</script>
+<style>
+   
+    body {
+        background-color: #130c38;
+        
+    }
+    div.action-buttons{
+        display: flex;
+        justify-content: center;
+    }
+    input.btn{
+        margin: 10px;
+    }
+    .select {
+        position: relative;
+    }
+    div.form-group.select:after{
+        border-color: white transparent transparent transparent;
+    }
+    .select2{
+        
+        width: 100%;
+        
+    }
+    span.select2.select2-container.select2-container--default {
+        width: 100% !important;
+  
+    }
+    .select2-container--default .select2-selection--multiple {
+        padding: 0rem .25rem .1rem .75rem !important;
+        background-color: transparent !important;
+    }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice{
+            background-color: transparent;
+            color: white;
+    }
+        element.style {
+        }
+    option{
+
+        color: #231954;}
+    .select select {
+        display: block;
+        width: 100%; /* от ширины блока div */
+        padding: .75rem 2.5rem .75rem 1rem;/* отступы от текста до рамки */
+        background: none; /* убираем фон */
+        border: 1px solid #ccc; /* рамка */
+        border-radius: 3px;/* скругление полей формы */
+        -webkit-appearance: none;/* Chrome */
+        -moz-appearance: none;/* Firefox */
+        font-family: inherit;/* наследует от родителя */
+        font-size: 1rem;
+        color: white;
+    }
+    .select:after {
+        content: "";
+        display: block;
+        border-style: solid;
+        border-width: 6px 5px 0 5px;
+        border-color: #000 transparent transparent transparent;
+        pointer-events: none;
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        z-index: 1;
+        margin-top: -3px;
+    }
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

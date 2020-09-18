@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebApp3.Areas.Identity.DbContext;
 using WebApp3.Data;
 using WebApp3.Models;
 
@@ -16,7 +17,7 @@ namespace WebApp3.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<WebApp3Context>(options =>
+                services.AddDbContext<ApplicationUserDbContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("WebApp3ContextConnection")));
         services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -28,7 +29,7 @@ namespace WebApp3.Areas.Identity
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 1;
             })
-                    .AddEntityFrameworkStores<WebApp3Context>();
+                    .AddEntityFrameworkStores<ApplicationUserDbContext>();
         
             });
         }

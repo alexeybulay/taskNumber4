@@ -2,20 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using WebApp3.Areas.Identity.DbContext;
-using WebApp3.Controllers;
 using WebApp3.Models;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace WebApp3.Areas.Identity.Pages.Account
 {
@@ -47,6 +41,7 @@ namespace WebApp3.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
@@ -85,6 +80,11 @@ namespace WebApp3.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 ApplicationUser user = await _userManager.FindByEmailAsync(Input.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError("","This account not found!");
+                    return Page();
+                }
                 if (user.IsBlocked == true)
                 {
                     ModelState.AddModelError("","This account is blocked!");
@@ -95,9 +95,14 @@ namespace WebApp3.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    if (user.ImageUrl == null)
+                    {
+                        user.ImageUrl = "standart.jpg";
+                    }
+                    user.IsActive = true;
                     user.LastTimeLogin = DateTimeOffset.Now;
                     await _userManager.UpdateAsync(user);
-                        return LocalRedirect(returnUrl);
+                        return Page();
                     
                 }
 

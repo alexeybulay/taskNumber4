@@ -1,0 +1,18 @@
+﻿@model WebApp3.ViewModels.AddOrEditAboutMeViewModel
+@{
+    Layout = null;
+}
+
+    <form asp-action="AddOrEditAboutMe" onsubmit="return jQueryAjaxPost(this, 'Отлично','','success')">
+        <div class="form-group">
+            <textarea asp-for="AboutMe" class="form-control" style="height: 100px" placeholder="Напиши что-нибудь о себе..."></textarea>
+            <span asp-validation-for="AboutMe" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+
+<style>
+    body {
+        color: #130c38;
+    }
+</style>

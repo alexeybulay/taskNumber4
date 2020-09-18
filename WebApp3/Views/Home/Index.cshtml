@@ -1,7 +1,309 @@
-﻿
+﻿@using Microsoft.EntityFrameworkCore.Internal
+@model WebApp3.ViewModels.FanficTagViewModel
+
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Главная";
 }
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="col-md-12">
+    <div id="slides" class="carousel slide" data-ride="carousel">
+        <ul class="carousel-indicators">
+            <li data-target="#slides" data-slide-to="0" class="active"></li>
+            <li data-target="#slides" data-slide-to="1"></li>
+            <li data-target="#slides" data-slide-to="2"></li>
+            <li data-target="#slides" data-slide-to="3"></li>
+            <li data-target="#slides" data-slide-to="4"></li>
+        </ul>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="images/typeFilms.jpg" alt="First slide">
+                <div class="carousel-caption">
+                    <h2>Фильмы</h2>
+                    <a type="button" class="btn btn-outline-light btn-lg" asp-controller="Fanfic" asp-action="FanficList" asp-route-idFandom="1">Посмотреть фанфики на тему</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/typeCartoons.jpg" alt="Second slide">
+                <div class="carousel-caption">
+                    <h2>Мультфильмы</h2>
+                    <a type="button" class="btn btn-outline-light btn-lg" asp-controller="Fanfic" asp-action="FanficList" asp-route-idFandom="2">Посмотреть фанфики на тему</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/typeBook.jpg" alt="Third slide">
+                <div class="carousel-caption">
+                    <h2>Книги</h2>
+                    <a type="button" class="btn btn-outline-light btn-lg" asp-controller="Fanfic" asp-action="FanficList" asp-route-idFandom="3">Посмотреть фанфики на тему</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/typeGame.jpg" alt="Third slide">
+                <div class="carousel-caption">
+                    <h2>Игры</h2>
+                    <a type="button" class="btn btn-outline-light btn-lg" asp-controller="Fanfic" asp-action="FanficList" asp-route-idFandom="4">Посмотреть фанфики на тему</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="images/typeComics.jpg" alt="Third slide">
+                <div class="carousel-caption">
+                    <h2>Комиксы</h2>
+                    <a type="button" class="button2 btn btn-outline-light btn-lg" asp-controller="Fanfic" asp-action="FanficList" asp-route-idFandom="5">Посмотреть фанфики на тему</a>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#slides" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Назад</span>
+        </a>
+        <a class="carousel-control-next" href="#slides" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Далее</span>
+        </a>
     </div>
+    <br />
+    <div class="top-fanfics">
+        <div class="top-fanfics-header">
+            ТОП-10 Фанфиков
+        </div>
+        <div class="top-fanfics-body">
+            <article class="all-browsers" id="table1">
+                @foreach (var fanfic in Model.FanficsTags.Distinct((fanfic, fanficTag) => fanfic.FanficId == fanficTag.FanficId))
+                {
+                    <article class="browser">
+                        <div class="content">
+                            <div class="user-like-comment">
+                                <div class="namefanfic">
+                                    <i class="fa fa-book" aria-hidden="true"><a class="dataFanfic" asp-controller="Fanfic" asp-action="AboutFanfic" asp-route-id="@fanfic.FanficId"> @fanfic.Fanfic.NameFanfic</a></i>
+                                </div>
+                                <div class="icon">
+                                    <div class="likes">
+                                        <i class="fa fa-thumbs-up" aria-hidden="true"><b style="color: yellowgreen"> @fanfic.Fanfic.Likes.Count() </b></i>
+                                    </div>
+                                    <div class="comment">
+                                        <i class="fa fa-comments" aria-hidden="true"><b> @fanfic.Fanfic.Comments.Count() </b></i>
+                                    </div>
+                                    @if (User.Identity.IsAuthenticated == true && User.Identity.Name == fanfic.Fanfic.ApplicationUser.Email)
+                                    {
+                                        <div class="delete">
+                                            <a data-toggle="modal" onclick="showInPopup('@Url.Action("Delete", "Fanfic", new {id = fanfic.FanficId}, Context.Request.Scheme)', 'Подтвердите удаление фанфика')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="userpublish">
+                                <i class="fa fa-user" aria-hidden="true"><a class="dataFanfic" asp-controller="Home" asp-action="MyInformation" asp-route-id="@fanfic.Fanfic.ApplicationUserId"> @fanfic.Fanfic.ApplicationUser.Email</a></i>
+                            </div>
+                            <div class="namefandom">
+                                <i class="fa fa-book" aria-hidden="true"><a class="dataFanfic" asp-controller="Fanfic" asp-action="FanficList" asp-route-idFandom="@fanfic.Fanfic.FandomId"><b> Фэндом: </b> @fanfic.Fanfic.Fandoms.FandomName</a></i>
+                            </div>
+                            <div class="namecategory">
+                                <i class="fa fa-book" aria-hidden="true"><a class="dataFanfic" asp-controller="Fanfic" asp-action="FanficList" asp-route-idCategory="@fanfic.Fanfic.CategoryId"><b> Категория: </b> @fanfic.Fanfic.Category.CategoryName</a></i>
+                            </div>
+                            <div class="desciption">
+                                <i class="fa fa-pencil" aria-hidden="true"><b> Описание: </b> @fanfic.Fanfic.Description</i>
+                            </div>
+                            <div class="tags">
+                                <form method="get">
+                                    <i class="fa fa-tags" aria-hidden="true">
+                                        <b> Метки: </b>
+
+
+
+                                        <a class="dataFanfic" data-toggle="tooltip" data-placement="top" title="@fanfic.Tag.TagDescription" asp-action="FanficList" asp-route-idTag="@fanfic.TagId">
+
+                                            @String.Join(' ', fanfic.Tag.TagTitle);
+                                        </a>
+
+
+
+                                    </i>
+                                </form>
+                            </div>
+                            <div class="timepublish">
+                                <i class="fa fa-calendar" aria-hidden="true"><b> Дата публикации: </b> @fanfic.Fanfic.DateTimePublish</i>
+                            </div>
+                        </div>
+                    </article>
+                }
+
+
+            </article>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+<style>
+    /*media-select for carousel-caprton
+
+        */
+
+    /*fanficlist-style*/
+    a.dataFanfic {
+        font-family: Century gothic, sans-serif;
+
+        color: white;
+    }
+    .subscribe{
+        color: white;
+    } .page-link{
+          margin-left: 15px !important;
+      }
+    a.dataFanfic:hover {
+        color: rgb(220, 226, 231);
+    }
+    /*  .tags-list {
+        background-color: slategray;
+        padding: 5px;
+    }*/
+    button.like {
+        background-color: transparent;
+        border: 0px;
+    }
+
+    div.user-like-comment {
+        display: inline-flex;
+        font-size: 28px;
+    }
+
+    div .content {
+        margin: 10px;
+    }
+
+    div .name-user, .desciption, .rating, .tags, .timepublish, .namefandom, .namecategory {
+        font-size: 19px;
+    }
+
+    div .userpublish {
+        font-size: 22px;
+    }
+
+    div .icon {
+        display: inherit;
+    }
+
+    div .delete {
+        margin-left: 15px
+    }
+
+    div .desciption {
+        display: block;
+    }
+
+    div .rating i {
+        color: gold;
+        padding-left: 15px;
+    }
+
+    div .likes i {
+        color: yellowgreen;
+        padding-left: 10px;
+    }
+
+    div .comment i {
+        padding-left: 10px;
+    }
+
+    .all-browsers {
+        margin: 0;
+        padding: 5px;
+        background-color: transparent;
+    }
+
+    .all-browsers > h1, .browser {
+        margin: 10px;
+        padding: 5px;
+    }
+
+    .browser {
+        background: transparent;
+        color: white;
+        border: 1px solid #d8d4ca;
+        border-left: 8px solid #f8084c;
+        border-right: 8px solid #f8084c;
+        border-radius: 10px;
+        font-size: 18px;
+    }
+
+
+    .browser > h2, p {
+        margin: 4px;
+        font-size: 90%;
+    }
+
+    /**/
+
+    /*top-fanfics*/
+    div.top-fanfics {
+        margin-top: 10px;
+    }
+
+    div.top-fanfics-header {
+        font-size: 28px;
+        color: white;
+        text-align: center;
+    }
+    /**/
+    .carousel-item img {
+        width: 100%;
+        opacity: .5;
+        /* height: 100%;*/
+    }
+
+    a.carousel-control-next, a.carousel-control-prev {
+        width: 5%;
+        height: auto;
+    }
+
+    .carousel-control-next:hover, .carousel-control-prev:hover {
+        background-color: silver;
+        opacity: 0.2;
+    }
+
+    .carousel-caption {
+        position: absolute;
+        top: 50%;
+        text-shadow: 1px 1px 10px #000;
+    }
+
+    p {
+        margin-left: 120px;
+        font-size: 22px;
+        color: white;
+    }
+
+    hr {
+        border-color: white;
+    }
+
+    hr {
+        float: left;
+        width: 100%;
+        height: auto;
+    }
+
+    .inner {
+        opacity: .6;
+    }
+
+        .inner img {
+            /*width: 193px;*/
+            /*max-width: 100%;*/
+            /*height: 254px;*/
+            /*display: inline;*/
+            /*border: 2px solid white;*/
+            margin-left: 10px;
+            height: auto;
+            width: 14%;
+        }
+
+            .inner img:hover {
+                border-left: 8px solid wheat;
+                -webkit-transform: scale(1.05);
+                -moz-transform: scale(1.05);
+                -o-transform: scale(1.05);
+                -moz-transition: all .3s ease;
+                -webkit-transition: all .3s ease;
+                -o-transition: all .3s ease;
+            }
+</style>

@@ -1,0 +1,48 @@
+﻿@model WebApp3.ViewModels.CreateChapterViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+<div class="container">
+    @foreach (var item in Model.Chapters)
+    {
+        <div class="body">
+        <div class="chapter">
+            <a asp-controller="Chapter" asp-action="Details" asp-route-id="@item.ChapterId" class="hrefchapter">@Html.DisplayFor(modelItem => item.NameChapter)</a>
+        </div>
+        <div class="time">
+            <small> @Html.DisplayFor(modelItem => item.DateTimePuplish)</small>
+        </div>
+    </div>
+    }
+</div>
+
+<style>
+    div .container, a.hrefchapter, a.hrefchapter:hover {
+        display: block;
+        background-color: teal;
+        padding: 7px;
+        color: wheat;
+        border-radius: 5px;
+    }
+    div .body{
+        margin: 20px;
+        border: 2px solid wheat;
+    }
+    div .chapter {
+        font-size: 28px;
+    }
+    div .right{
+        float: right!important;
+        font-size: 28px;
+        padding: 7px;
+        color: wheat;
+        }
+    div .time{
+        padding: 7px;
+        color: wheat;
+        }
+    </style>

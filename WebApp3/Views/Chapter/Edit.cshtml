@@ -1,0 +1,43 @@
+﻿@model WebApp3.ViewModels.EditChapter
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>EditChapter</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NameChapter" class="control-label"></label>
+                <input asp-for="NameChapter" class="form-control" />
+                <span asp-validation-for="NameChapter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TextChapter" class="control-label"></label>
+                <textarea style="height: 350px" asp-for="TextChapter" class="form-control"></textarea>
+                <span asp-validation-for="TextChapter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<style>
+    * {
+        color: wheat;
+    }
+</style>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

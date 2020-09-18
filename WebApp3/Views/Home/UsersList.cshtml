@@ -1,0 +1,272 @@
+﻿@model WebApp3.ViewModels.FanficTagViewModel
+@{
+    ViewBag.Title = "Список пользователей";
+}
+
+    <ul class="nav nav-pills nav-fill" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" href="#all-users" role="tab" data-toggle="tab">Всё пользователи (@Model.ApplicationUsers.Count())</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#active-users" role="tab" data-toggle="tab">Пользователи в сети (@Model.ApplicationUsers.Where(status => status.IsActive).Count())</a>
+        </li>
+    </ul>
+
+<form>
+    <div class="input-group">
+        <input class="form-control" id="searchUser" placeholder="Поиск содержимого пользователя">
+    </div>
+</form>
+<div class="col-sm-12">
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="all-users">
+            <table class="users-list" id="tableUserList">
+
+                @foreach (var user in Model.ApplicationUsers)
+                {
+                    <tr class="search">
+                        <td class="author-avatar">
+                            <div class="avatar-holder">
+                                <div class="avatar easy-100">
+                                    <a class="name-user" asp-controller="Home" asp-action="MyInformation" asp-route-id="@user.Id">
+                                        <img src="~/images/@user.ImageUrl" asp-append-version="true" class="user-avatar" width="100" height="100" alt="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="about-author" style="padding-left: 10px;">
+                            <form method="get">
+                                <a class="name-user" asp-controller="Home" asp-action="MyInformation" asp-route-id="@user.Id">
+                                    @user.Email
+                                </a>
+                            </form>
+                            @if (user.IsActive == true)
+                            {
+                                <div id="online">
+                                    <b>В сети</b>
+                                </div>
+                            }
+                            @if (user.IsActive == false)
+                            {
+                                <div id="offline">
+                                    <b>Не в сети</b>
+                                </div>
+                            }
+                            @if (user.IsBlocked == false)
+                            {
+                                <div id="online">
+                                    <b>Активный</b>
+                                </div>
+                            }
+                            @if (user.IsBlocked == true)
+                            {
+                                <div id="offline">
+                                    <b>Не в сети</b>
+                                </div>
+                            }
+                            <div class="subscribe">
+                                Фанфиков:
+                                <b> @user.Fanfics.Count</b>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </table>
+
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="active-users">
+            <table class="users-list" id="tableUserList">
+
+                @foreach (var user in Model.ApplicationUsers.Where(status => status.IsActive))
+                {
+                    <tr class="search">
+                        <td class="author-avatar">
+                            <div class="avatar-holder">
+                                <div class="avatar easy-100">
+                                    <a class="name-user" asp-controller="Home" asp-action="MyInformation" asp-route-id="@user.Id">
+                                        <img src="~/images/@user.ImageUrl" asp-append-version="true" class="user-avatar" width="100" height="100" alt="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="about-author" style="padding-left: 10px;">
+                            <form method="get">
+                                <a class="name-user" asp-controller="Home" asp-action="MyInformation" asp-route-id="@user.Id">
+                                    @user.Email
+                                </a>
+                            </form>
+                            @if (user.IsActive == true)
+                            {
+                                <div id="online">
+                                    <b>В сети</b>
+                                </div>
+                            }
+                            @if (user.IsActive == false)
+                            {
+                                <div id="offline">
+                                    <b>Не в сети</b>
+                                </div>
+                            }
+                            @if (user.IsBlocked == false)
+                            {
+                                <div id="online">
+                                    <b>Активный</b>
+                                </div>
+                            }
+                            @if (user.IsBlocked == true)
+                            {
+                                <div id="offline">
+                                    <b>Не в сети</b>
+                                </div>
+                            }
+                            <div class="subscribe">
+                                Фанфиков:
+                                <b> @user.Fanfics.Count</b>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+    <nav aria-label="Page navigation example">
+        <form asp-action="UsersList" method="get">
+            <div class="page-number">
+                <div>
+                    <input type="number" name="page" class="form-control" value="@Model.PaginationPageViewModel.NumberPage" min="1" max="@Model.PaginationPageViewModel.TotalPage"/>
+                </div>
+                <div class="number-last">
+                    <b>из @Model.PaginationPageViewModel.TotalPage</b>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-outline-secondary btn-sm">Перейти</button>
+                </div>
+            </div>
+        </form>
+
+        <ul class="pagination justify-content-center">
+            @if (Model.PaginationPageViewModel.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="UsersList" asp-route-page="@(Model.PaginationPageViewModel.NumberPage - 1)" tabindex="-1">&lt; Назад</a>
+                </li>
+            }
+
+            @if (Model.PaginationPageViewModel.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="UsersList" asp-route-page="@(Model.PaginationPageViewModel.NumberPage + 1)">Далее &gt;</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
+
+<script>
+ 
+
+$(".form-control").on("keyup",
+        function () {
+            var dataSearch = $(this).val().toLowerCase();
+            $("#tableUserList tr").each(function() {
+                var stringData = $(this).text().toLowerCase();
+                if (stringData.indexOf(dataSearch) === -1) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                    }
+            });
+        });
+
+ 
+</script>
+
+<style>
+    /*tabs*/
+     .nav-link.active {
+        background-color: #dc3545 !important;
+    }
+    a.nav-link{
+        color: white;
+    }
+    a.nav-link:hover{
+        color: whitesmoke;
+    }
+    /**/
+    .subscribe{
+        color: white;
+    }
+    .page-link{
+        margin-left: 15px !important;
+    }
+    input[type=number]{
+        width: 3em;
+        line-height: 1;
+        padding-left: 5px;
+        border: 2px solid #c69e6c;
+    }
+    div.page-number{
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+    div.number-last{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    #online{
+        color: greenyellow;
+    }
+    #offline{
+        color: red;
+    }
+    .name-user[href]{
+        font-size: 100%;
+        color: #d8d4ca;
+        text-decoration: underline;
+    }
+    @*@media (min-width: 768px) .col-sm-16 {
+        width: 100%;
+    }*@
+    .author-avatar{
+        display: block;
+    }
+    .users-list tr{
+        padding-bottom: 50px;
+        display: inherit;
+    }
+    .users-list .author-avatar{
+        width: 130px;
+        text-align: right;
+    }
+    .users-list{
+        background-color: transparent;
+    }
+    .avatar-holder{
+        display: inline-block;
+    }
+    .avatar {
+        border-radius: 100%;
+        border: 2px solid #f8084c;
+        overflow: hidden;
+    }
+    .easy-100{
+
+        margin: 15px;
+    }
+    .avatar img{
+        margin: auto;
+        width: 100%;
+
+    }
+</style>

@@ -1,0 +1,10 @@
+﻿@model WebApp3.ViewModels.FanficTagViewModel
+@{ ViewData["Title"] = "О фанфике2"; }
+
+<div id="view-all">
+    @await Html.PartialAsync("FanficList", Model)
+</div>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

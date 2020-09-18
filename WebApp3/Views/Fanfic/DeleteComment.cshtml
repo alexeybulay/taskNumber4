@@ -1,0 +1,22 @@
+﻿@model WebApp3.ViewModels.CommentDeleteViewModel
+@{
+    Layout = null;
+}
+
+<form class="form-delete" asp-action="DeleteComment" onsubmit="return jQueryAjaxPost(this, 'Отлично','Вы успешно удалили комментарий','success')" asp-route-commentId="@Model.CommentId">
+    <input type="submit" class="btn btn-danger" value="Удалить" />
+    <input onclick="closePopUp(this)" class="btn btn-danger" value="Назад" />
+</form>
+
+<style>
+    .form-delete{
+        display: flex;
+        padding: 10px;
+    }
+    input.btn{
+        margin: 10px;
+    }
+    input:hover{
+        cursor: pointer;
+    }
+</style>

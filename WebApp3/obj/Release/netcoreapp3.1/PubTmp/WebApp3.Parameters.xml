@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
-  <parameter name="IIS Web Application Name" description="" value="WebApp320200615104414" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Administrator\\source\\repos\\WebApp3\ —\ копия\ \(2\)\\WebApp3\\obj\\Release\\netcoreapp3\.1\\PubTmp\\Out\\$" />
+  <parameter name="IIS Web Application Name" description="" value="TheFanfictionWebApplication" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Administrator\\source\\repos\\WebApp3\ —\ копия\ \(2\)\ —\ копия\\WebApp3\\obj\\Release\\netcoreapp3\.1\\PubTmp\\Out\\$" />
+  </parameter>
+  <parameter name="WebApp3.Areas.Identity.DbContext.ApplicationUserDbContext" description="" value="Data Source=tcp:thefanfictionwebapplicationdbserver.database.windows.net,1433;Initial Catalog=TheFanfictionWebApplication_db;User Id=alexbas13@thefanfictionwebapplicationdbserver;Password=Alex5325353256" tags="dbfullsql">
+    <parameterEntry kind="ProviderPath" scope="dbfullsql" match="^C:\\Users\\Administrator\\source\\repos\\WebApp3\ —\ копия\ \(2\)\ —\ копия\\WebApp3\\obj\\Release\\netcoreapp3\.1\\PubTmp\\EFSQLScripts\\WebApp3\.Areas\.Identity\.DbContext\.ApplicationUserDbContext\.sql$" />
   </parameter>
 </parameters>

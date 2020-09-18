@@ -1,0 +1,22 @@
+﻿@model WebApp3.ViewModels.CreateChapterViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="aaa">
+    <h1> @Html.DisplayFor(model => model.NameChapter)</h1>
+@Html.ActionLink("Edit", "Edit", new {  id = Model.ChapterId  }) |
+    <a asp-action="Index">Back to List</a>
+
+    <div class="container">
+        <div class="col-md-12">
+            @Html.DisplayFor(model => model.TextChapter)
+        </div>
+    </div>
+</div>
+<style>
+    *{
+        color: wheat;
+    }
+</style>

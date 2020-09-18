@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +10,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using WebApp3.Models;
 
@@ -47,10 +44,16 @@ namespace WebApp3.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [AllowNull]
+            public string ImageUrl { get; set; } = "standart.jpg";
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Login")]
+            public string Login { get; set; }
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "First Name")]
-            public string FirstName { get; set; } 
+            public string FirstName { get; set; }
 
             [Required]
             [DataType(DataType.Text)]
@@ -86,12 +89,13 @@ namespace WebApp3.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
-            {   
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email,FirstName = Input.FirstName,LastName = Input.LastName,LockoutEnd = DateTimeOffset.Now, IsBlocked = false};
+            {
+                var user = new ApplicationUser { UserName = Input.Email, ImageUrl = Input.ImageUrl,Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, LockoutEnd = DateTimeOffset.Now, IsBlocked = false };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     user.LastTimeLogin = DateTimeOffset.Now;
+                    user.IsActive = true;
                     await _userManager.UpdateAsync(user);
                     _logger.LogInformation("User created a new account with password.");
 

@@ -1,0 +1,166 @@
+﻿@model WebApp3.ViewModels.FanficTagViewModel
+@{
+    ViewData["Title"] = "Список меток";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div class="container">
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <p>
+                <a data-toggle="modal" onclick="showInPopup('@Url.Action("Login", "Home", null, Context.Request.Scheme)', 'Авторизация')">Добавить метку</a>
+            </p>
+        }
+        @if (User.Identity.IsAuthenticated)
+        {
+            <p>
+                <a data-toggle="modal" onclick="showInPopup('@Url.Action("CreateTag", "Tag", null, Context.Request.Scheme)', 'Создание новой метки')">Добавить метку</a>
+            </p>
+        }
+        <div class="tag-list">
+            <div class="top-header">
+                <h2>Метки</h2>
+            </div>
+            <form>
+                <div class="input-group">
+                    <input class="form-control" id="searchTag" placeholder="Поиск содержимого метки">
+                </div>
+            </form>
+            <div class="col-sm-12">
+                <div class="row tags-row" id="tableTag">
+                    @foreach (var tags in Model.Tags)
+                    {
+                        <div class="col-sm-4 about">
+                            <div class="tag-name">
+                                <form method="get">
+                                    <a class="tagtitle" asp-controller="Fanfic" asp-action="FanficList" asp-route-idTag="@tags.TagId">@tags.TagTitle</a>
+                                </form>
+                                <sup>x @tags.FanficsTags.Select(ps => ps.Fanfic.FanficId).Count()</sup>
+                            </div>
+                            <div class="tag-description">
+                                @tags.TagDescription
+                            </div>
+                        </div>
+                    }
+                </div>
+                <nav aria-label="Page navigation example">
+                    <form asp-action="TagList" method="get">
+                        <div class="page-number">
+                            <div>
+                                <input type="number" name="page" class="form-control" value="@Model.PaginationPageViewModel.NumberPage" min="1" max="@Model.PaginationPageViewModel.TotalPage" />
+                            </div>
+                            <div class="number-last">
+                                <b>из @Model.PaginationPageViewModel.TotalPage</b>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-outline-secondary btn-sm">Перейти</button>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="pagination justify-content-center">
+                        @if (Model.PaginationPageViewModel.HasPreviousPage)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="TagList" asp-route-page="@(Model.PaginationPageViewModel.NumberPage - 1)" tabindex="-1">&lt; Назад</a>
+                            </li>
+                        }
+
+                        @if (Model.PaginationPageViewModel.HasNextPage)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="TagList" asp-route-page="@(Model.PaginationPageViewModel.NumberPage + 1)">Далее &gt;</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+
+<style>
+    body {
+        color: white;
+    }
+    .subscribe{
+          color: white;
+      
+      }
+    .page-link{
+            margin-left: 15px !important;
+        }
+    div.page-number{
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+    div.number-last{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .tag-name.hide {
+        display: none;
+    }
+
+    a:hover {
+        cursor: pointer;
+    }
+
+    .top-header {
+        border-bottom: 1px solid #eee;
+    }
+
+    .about {
+        border-bottom: 1px dotted #eee;
+    }
+
+    .tag-list .tags-row {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .tag-name {
+        margin-bottom: 5px;
+        color: #888;
+        font-size: 14px;
+    }
+
+    a.tag {
+        background-color: lightblue;
+        padding: 5px 7px;
+    }
+
+    a.tag:hover {
+        background-color: rgb(141, 182, 195);
+        text-decoration: none;
+    }
+
+    .tag-description {
+        color: #888;
+    }
+
+    .about {
+        padding: 15px;
+    }
+
+    .tag-name {
+        margin-bottom: 15px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $("#searchTag").on("keyup",
+            function () {
+                var dataSearch = $(this).val().toLowerCase();
+                $("#tableTag .about").each(function () {
+                    var stringData = $(this).text().toLowerCase();
+                    if (stringData.indexOf(dataSearch) === -1) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+            });
+    });
+</script>

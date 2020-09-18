@@ -1,0 +1,222 @@
+﻿@using Microsoft.EntityFrameworkCore.Internal
+@model WebApp3.ViewModels.FanficTagViewModel
+
+@{
+    ViewData["Title"] = "Список фанфиков";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="text-white">Работы автора</h1>
+        <form>
+            <div class="input-group">
+                <input class="form-control" id="searchrec" placeholder="Поиск содержимого фанфика">
+            </div>
+        </form>
+        <article class="all-browsers" id="table1">
+            @foreach (var fanfic in Model.FanficsTags.Distinct((fanfic, fanficTag) => fanfic.FanficId == fanficTag.FanficId))
+            {
+                <article class="browser">
+                    <div class="content">
+                        <div class="user-like-comment">
+                            <div class="namefanfic" >
+                                <i class="fa fa-book" aria-hidden="true"><a class="dataFanfic" asp-controller="Fanfic" asp-action="AboutFanfic" asp-route-id="@fanfic.FanficId"> @fanfic.Fanfic.NameFanfic</a></i>
+                            </div>
+                            <div class="icon">
+                                <div class="likes">
+                                    <i class="fa fa-thumbs-up" aria-hidden="true"><b style="color: yellowgreen"> @fanfic.Fanfic.Likes.Count() </b></i>
+                                </div>
+                                <div class="comment">
+                                    <i class="fa fa-comments" aria-hidden="true"><b> @fanfic.Fanfic.Comments.Count() </b></i>
+                                </div>
+                                @if (User.Identity.IsAuthenticated == true && User.Identity.Name == fanfic.Fanfic.ApplicationUser.Email)
+                                {
+                                    <div class="delete">
+                                        <a data-toggle="modal" onclick="showInPopup('@Url.Action("Delete", "Fanfic", new {id = fanfic.FanficId}, Context.Request.Scheme)', 'Подтвердите удаление фанфика')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="userpublish">
+                            <i class="fa fa-user" aria-hidden="true"><a class="dataFanfic" asp-controller="Home" asp-action="MyInformation" asp-route-id="@fanfic.Fanfic.ApplicationUserId"> @fanfic.Fanfic.ApplicationUser.Email</a></i>
+                        </div>
+                        <div class="namefandom">
+                            <i class="fa fa-book" aria-hidden="true"><a class="dataFanfic" asp-controller="Fanfic" asp-action="FanficList" asp-route-idFandom="@fanfic.Fanfic.FandomId"><b> Фэндом: </b> @fanfic.Fanfic.Fandoms.FandomName</a></i>
+                        </div>
+                        <div class="namecategory">
+                            <i class="fa fa-book" aria-hidden="true"><a class="dataFanfic" asp-controller="Fanfic" asp-action="FanficList" asp-route-idCategory="@fanfic.Fanfic.CategoryId"><b> Категория: </b> @fanfic.Fanfic.Category.CategoryName</a></i>
+                        </div>
+                        <div class="desciption">
+                            <i class="fa fa-pencil" aria-hidden="true"><b> Описание: </b> @fanfic.Fanfic.Description</i>
+                        </div>
+                        <div class="tags">
+                            <form method="get">
+                                <i class="fa fa-tags" aria-hidden="true">
+                                    <b> Метки: </b>
+                       
+                                   
+                                        
+                                        <a class="dataFanfic" data-toggle="tooltip" data-placement="top" title="@fanfic.Tag.TagDescription" asp-action="FanficList" asp-route-idTag="@fanfic.TagId">
+
+                                            @String.Join(' ', fanfic.Tag.TagTitle);
+                                        </a>
+                                         
+                                    
+
+                                </i>
+                            </form>
+                        </div>
+                        <div class="timepublish">
+                            <i class="fa fa-calendar" aria-hidden="true"><b> Дата публикации: </b> @fanfic.Fanfic.DateTimePublish</i>
+                        </div>
+                    </div>
+                </article>
+            }
+
+        </article>
+        @*<nav aria-label="Page navigation example">
+       
+            <ul class="pagination justify-content-center">
+                @if (Model.PaginationPageViewModel.HasPreviousPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="FanficList" asp-route-page="@(Model.PaginationPageViewModel.NumberPage - 1)" tabindex="-1">&lt; Назад</a>
+                    </li>
+                }
+
+                @if (Model.PaginationPageViewModel.HasNextPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="FanficList" asp-route-page="@(Model.PaginationPageViewModel.NumberPage + 1)">Далее &gt;</a>
+                    </li>
+                }
+            </ul>
+        </nav>*@
+    </div>
+</div>
+
+<script>
+    $(".form-control").on("keyup",
+        function () {
+            var dataSearch = $(this).val().toLowerCase();
+            $("#table1 .browser").each(function() {
+                var stringData = $(this).text().toLowerCase();
+                if (stringData.indexOf(dataSearch) === -1) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                    }
+            });
+        });
+</script>
+
+<style>
+   
+    a.dataFanfic {
+        font-family: Century gothic, sans-serif;
+
+        color: white;
+    }
+    .subscribe{
+        color: white;
+    } .page-link{
+          margin-left: 15px !important;
+      }
+        a.dataFanfic:hover {
+            color: rgb(220, 226, 231);
+        }
+  /*  .tags-list {
+        background-color: slategray;
+        padding: 5px;
+    }*/
+    button.like {
+        background-color: transparent;
+        border: 0px;
+    }
+
+    div.user-like-comment {
+        display: inline-flex;
+        font-size: 28px;
+    }
+
+    div .content {
+        margin: 10px;
+    }
+
+    div .name-user, .desciption, .rating, .tags, .timepublish, .namefandom, .namecategory {
+        font-size: 19px;
+    }
+
+    div .userpublish {
+        font-size: 22px;
+    }
+
+    div .icon {
+        display: inherit;
+    }
+
+    div .delete {
+        margin-left: 15px
+    }
+
+    div .desciption {
+        display: block;
+    }
+
+    div .rating i {
+        color: gold;
+        padding-left: 15px;
+    }
+
+    div .likes i {
+        color: yellowgreen;
+        padding-left: 10px;
+    }
+
+    div .comment i {
+        padding-left: 10px;
+    }
+
+    .all-browsers {
+        margin: 0;
+        padding: 5px;
+        background-color: transparent;
+    }
+
+        .all-browsers > h1, .browser {
+            margin: 10px;
+            padding: 5px;
+        }
+
+    .browser {
+        background: transparent;
+        color: white;
+        border: 1px solid #d8d4ca;
+        border-left: 8px solid #f8084c;
+        border-right: 8px solid #f8084c;
+                      border-radius: 10px;
+        font-size: 18px;
+    }
+
+
+        .browser > h2, p {
+            margin: 4px;
+            font-size: 90%;
+        }
+
+    .word {
+    }
+
+ /*   a.tag {
+        background-color: lightblue;
+        padding: 5px 7px;
+    }
+
+        a.tag:hover {
+            background-color: rgb(141, 182, 195);
+            text-decoration: none;
+        }*/
+</style>
+
+

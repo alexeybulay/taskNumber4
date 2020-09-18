@@ -1,0 +1,11 @@
+﻿body {
+}
+* {
+    color: white;
+}
+#online {
+    color: greenyellow;
+}
+#offline {
+    color: red;
+}

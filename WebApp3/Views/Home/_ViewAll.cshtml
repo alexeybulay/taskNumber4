@@ -1,0 +1,13 @@
+﻿@model IEnumerable<WebApp3.Models.Fandom>
+@{
+    ViewBag.Title = "Главная";
+}
+
+<div id="view-all">
+    @await Html.PartialAsync("Index", Model)
+</div>
+
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

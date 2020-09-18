@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sitemanifest>
-  <IisApp path="C:\Users\Administrator\source\repos\WebApp3 — копия (2)\WebApp3\obj\Release\netcoreapp3.1\PubTmp\Out\" />
+  <IisApp path="C:\Users\Administrator\source\repos\WebApp3 — копия (2) — копия\WebApp3\obj\Release\netcoreapp3.1\PubTmp\Out\" />
+  <dbfullsql path="C:\Users\Administrator\source\repos\WebApp3 — копия (2) — копия\WebApp3\obj\Release\netcoreapp3.1\PubTmp\EFSQLScripts\WebApp3.Areas.Identity.DbContext.ApplicationUserDbContext.sql" />
 </sitemanifest>

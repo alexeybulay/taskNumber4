@@ -1,0 +1,96 @@
+﻿@model WebApp3.ViewModels.RegisterViewModel
+
+@{ Layout = null; }
+
+        <form id="account" method="post" asp-action="Register" onsubmit="return jQueryAjaxPost(this, 'Завершение регистрации', 'На вашу почту было отправлено письмо с ссылкой на активацию аккаунта', 'info')">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <br/>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-user text-dark" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <input asp-for="Login" class="form-control" placeholder="Логин">
+                 
+                </div>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-user text-dark" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <input asp-for="FirstName" class="form-control" placeholder="Имя"/>
+                 
+                </div>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-user text-dark" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <input asp-for="LastName" class="form-control" placeholder="Фамилия"/>
+                </div>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-envelope-o text-dark"></i>
+                        </div>
+                    </div>
+                    <input asp-for="Email" class="form-control" placeholder="Email"/>
+                </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-key text-dark" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <input asp-for="Password" class="form-control" placeholder="Пароль"/>
+                </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-key text-dark" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Повторите пароль"/>
+                </div>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="form-group modal-footer">
+                <button type="submit" class="button btn btn-success">Регистрация</button>
+            </div>
+        </form>
+
+
+        <style>
+            div.modal-footer {
+                display: flex;
+                justify-content: center;
+            }
+        </style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

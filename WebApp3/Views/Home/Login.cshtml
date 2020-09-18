@@ -1,0 +1,43 @@
+﻿
+@model WebApp3.ViewModels.LoginViewModel;
+@{Layout = null;}
+@*@{ ViewData["Title"] = "Login"; }*@
+
+<form id="account" asp-action="Login" method="post" onsubmit="return jQueryAjaxPost(this, 'Завершение авторизации', 'Авторазиция прошла успешно', 'info')">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-envelope text-dark" aria-hidden="true"></i></span>
+            </div>
+            <input asp-for="Email" class="form-control" placeholder="Логин"/>
+        </div>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fa fa-key text-dark" aria-hidden="true"></i>
+                </div>
+            </div>
+            <input asp-for="Password" class="form-control" placeholder="Пароль"/>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-group modal-footer">
+        <button class="button btn btn-success" id="btnLogin">Войти</button>
+        <a onclick="closePop(), callResetPassword()">Забыли пароль? Восстановить</a>
+        <a onclick="showInPopup('@Url.Action("Register", "Home", null, Context.Request.Scheme)', 'Авторизация')">Нет аккаунта? Зарегистрироваться</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<style>
+    div.modal-footer {
+        display: grid;
+        place-content: center;
+    }
+</style>

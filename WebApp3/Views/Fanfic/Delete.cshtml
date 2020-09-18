@@ -1,0 +1,21 @@
+﻿@model WebApp3.ViewModels.FanficDeleteViewModel
+
+@{
+    Layout = null;
+}
+<form class="form-delete" asp-action="Delete" onsubmit="return deleteFanfic(this, 'Отлично','Вы успешно удалили фанфик','success')" asp-route-id="@Model.FanficId">
+            <input type="submit" class="btn btn-danger" value="Удалить" />
+            <input onclick="closePopUp(this)" class="btn btn-danger" value="Назад" />
+</form>
+<style>
+    .form-delete{
+        display: flex;
+        padding: 10px;
+        }
+    input.btn{
+        margin: 10px;
+        }
+     input:hover{
+         cursor: pointer;
+         }
+</style>
